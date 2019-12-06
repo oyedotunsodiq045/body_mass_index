@@ -5,7 +5,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-// Defining Adult Normal, Overweight & Obesity
+// Defining BMI Status: Normal, Overweight & Obesity
 // If your BMI is less than 18.5, it falls within the underweight range.
 // If your BMI is 18.5 to <25, it falls within the normal.
 // If your BMI is 25.0 to <30, it falls within the overweight range.
@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   final TextEditingController _editingControllerWeight =
       new TextEditingController();
   String _formattedText = '';
-  String _overweightObesity = '';
+  String _status = '';
   double _finalResult = 0.0;
 
   void handleCalculateBMI() {
@@ -32,17 +32,17 @@ class _HomeState extends State<Home> {
           _editingControllerWeight.text, _editingControllerHeight.text);
       _formattedText = 'Your BMI: ${_finalResult.toStringAsFixed(1)}';
       if (_finalResult < 18.5) {
-        _overweightObesity = 'Underweight';
+        _status = 'Underweight';
       } else if (_finalResult >= 18.5 && _finalResult < 25.0) {
-        _overweightObesity = 'Normal';
+        _status = 'Normal';
       } else if (_finalResult >= 25.0 && _finalResult < 30.0) {
-        _overweightObesity = 'Overweight';
+        _status = 'Overweight';
       } else if (_finalResult >= 30.0 && _finalResult < 35.0) {
-        _overweightObesity = 'Class 1 Obesity';
+        _status = 'Class 1 Obesity';
       } else if (_finalResult >= 35.0 && _finalResult < 40.0) {
-        _overweightObesity = 'Class 2 Obesity';
+        _status = 'Class 2 Obesity';
       } else {
-        _overweightObesity = 'Class 3 Obesity, Or Extreme / Severe Obesity';
+        _status = 'Class 3 Obesity, Or Extreme / Severe Obesity';
       }
     });
   }
@@ -66,51 +66,49 @@ class _HomeState extends State<Home> {
               width: 200.0,
             ),
             Container(
+              color: Colors.grey.shade300,
               margin: EdgeInsets.all(3.0),
               alignment: Alignment.center,
-              child: Container(
-                color: Colors.blueGrey,
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      controller: _editingControllerAge,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.person_outline),
-                        labelText: 'Age',
+              child: Column(
+                children: <Widget>[
+                  TextField(
+                    controller: _editingControllerAge,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.person_outline),
+                      labelText: 'Age',
+                    ),
+                  ),
+                  TextField(
+                    controller: _editingControllerHeight,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.assessment),
+                      labelText: 'Height in Inches',
+                      hintText: 'height in inches',
+                    ),
+                  ),
+                  TextField(
+                    controller: _editingControllerWeight,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.line_weight),
+                      labelText: 'Weight in lb',
+                      hintText: 'weight in pounds',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: RaisedButton(
+                        onPressed: handleCalculateBMI,
+                        child: Text('Calculate'),
+                        color: Colors.pink,
+                        textColor: Colors.white,
                       ),
                     ),
-                    TextField(
-                      controller: _editingControllerHeight,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.assessment),
-                        labelText: 'Height in Inches',
-                        hintText: 'height in inches',
-                      ),
-                    ),
-                    TextField(
-                      controller: _editingControllerWeight,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.line_weight),
-                        labelText: 'Weight in lb',
-                        hintText: 'weight in pounds',
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: RaisedButton(
-                          onPressed: handleCalculateBMI,
-                          child: Text('Calculate'),
-                          color: Colors.pink,
-                          textColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -129,7 +127,7 @@ class _HomeState extends State<Home> {
                   ),
                   Center(
                     child: Text(
-                      "$_overweightObesity",
+                      "$_status",
                       style: TextStyle(
                         color: Colors.pink,
                         fontSize: 19.0,
